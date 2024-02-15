@@ -45,3 +45,57 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+SETUP COMMANDS :
+
+npm create astro@latest(install packages: Y ; create new project: ./new-project ; Start project: Empty; Install dependencies: Y ; Typescript: Y ; How Typescript should be: Strict; New Repo: Y;)
+
+cd ./new-project && code .
+
+npm start (to test)
+
+npx astro add tailwind (Y to all)
+
+Then, in astro.config.mjs, write
+integrations: [tailwind({
+applyBaseStyles: false,
+})]
+
+Then,
+create src/styles/global.css and add theses lines :
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Then, in index.astro, in code fences, import de global.css :
+import '../styles/global.css';
+
+npm i @wp-block-tools/styles
+
+Then, in tailwind.config.mjs, add this line :
+content: [
+'./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+--> './node_modules/@wp-block-tools/styles/**/*.js' <--
+],
+
+npm i -D prettier prettier-plugin-astro
+Then, create src/.prettierrc.mjs file
+Then add the plugin to your Prettier configuration:
+// .prettierrc.mjs
+/\*_ @type {import("prettier").Config} _/
+export default {
+plugins: ['prettier-plugin-astro'],
+overrides: [
+{
+files: '*.astro',
+options: {
+parser: 'astro',
+},
+},
+],
+};
+
+Then close VSCode (if opened) and reopen it
+
+Then, create a .env file with the api URL
+WPGRAPHQL_URL="http://new-project.local/graphql" (needs to match with the Site domain new-project.local in the app Local)
