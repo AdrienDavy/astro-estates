@@ -1,5 +1,7 @@
 ---
 import BlockRendererInner from './BlockRenderer.astro';
+import Navigation from './Navigation.astro';
+import NavigationLink from './NavigationLink.astro';
 import {getBlockStyling} from "@wp-block-tools/styles";
 import type { Block } from "@wp-block-tools/styles";
 import { Image } from 'astro:assets';
@@ -7,13 +9,30 @@ type Props = {
   blocks: Block[]
 }
 const {blocks} = Astro.props
-console.log("🚀 ~ blocks from BLOCK RENDERER:", blocks)
 ---
 {
   blocks.map(block =>{
     const {styles, classes} = getBlockStyling(block);
 
     switch (block.name) {
+      case 'core/navigation-link':
+        return(
+          <NavigationLink
+          classes={classes}
+          styles={styles}
+          label={block.attributes?.label || ''}
+          url={block.attributes?.url || ""}
+          />
+        )
+      case 'core/navigation':
+        return (
+          <Navigation
+          classes={classes}
+          styles={styles}
+          >
+            <BlockRendererInner blocks={block.innerBlocks || []} />
+          </Navigation>
+          );
       case 'core/paragraph':
         return (
           <p
@@ -22,7 +41,7 @@ console.log("🚀 ~ blocks from BLOCK RENDERER:", blocks)
           set:html={block.attributes?.content}
           >
           </p>
-          )
+          );
       case 'core/columns':
       case 'core/column':
       case 'core/post-content':
@@ -42,7 +61,7 @@ console.log("🚀 ~ blocks from BLOCK RENDERER:", blocks)
                 alt={block.attributes?.alt || ""}
               />
             </div>
-          )
+          );
         case 'core/template-part':
           return <BlockRendererInner blocks={block.innerBlocks || []} />
       default:
