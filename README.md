@@ -45,3 +45,12 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+SETUP COMMANDS :
+npm create astro@latest(install packages: Y ; create new project: ./new-project ; Start project: Empty; Install dependencies: Y ; Typescript: Y ; How Typescript should be: Strict; New Repo: Y;)
+
+cd ./new-project && code .
+
+npm start (to test)
+
+npx astro add tailwind (Y to all)
