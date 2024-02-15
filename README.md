@@ -96,3 +96,6 @@ parser: 'astro',
 };
 
 Then close VSCode (if opened) and reopen it
+
+Then, create a .env file with the api URL
+WPGRAPHQL_URL="http://new-project.local/graphql" (needs to match with the Site domain new-project.local in the app Local)
