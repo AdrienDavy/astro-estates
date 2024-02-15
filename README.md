@@ -54,3 +54,23 @@ cd ./new-project && code .
 npm start (to test)
 
 npx astro add tailwind (Y to all)
+Then, in astro.config.mjs, write
+integrations: [tailwind({
+applyBaseStyles: false,
+})]
+then,
+create src/styles/global.css and add theses lines :
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Then, in index.astro, in code fences, import de global.css :
+import '../styles/global.css';
+
+npm i @wp-block-tools/styles
+
+Then, in tailwind.config.mjs, add this line :
+content: [
+'./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+--> './node_modules/@wp-block-tools/styles/**/*.js' <--
+],
