@@ -99,3 +99,13 @@ Then close VSCode (if opened) and reopen it
 
 Then, create a .env file with the api URL
 WPGRAPHQL_URL="http://new-project.local/graphql" (needs to match with the Site domain new-project.local in the app Local)
+
+npx astro add react (Y to all)
+
+npm i --save @fortawesome/fontawesome-svg-core
+npm install --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/react-fontawesome@latest
+Then add in CommonHead.astro, in code fences :
+import {config} from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;

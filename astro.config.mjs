@@ -1,14 +1,18 @@
 import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import { loadEnv } from 'vite';
-const { IMAGE_DOMAIN } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+import react from "@astrojs/react";
+const {
+  IMAGE_DOMAIN
+} = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+
 
 // https://astro.build/config
 export default defineConfig({
   image: {
-    domains: [IMAGE_DOMAIN],
+    domains: [IMAGE_DOMAIN]
   },
   integrations: [tailwind({
-    applyBaseStyles: false, // Disable base styles for custom-built components (defaults to true)
-  })]
+    applyBaseStyles: false // Disable base styles for custom-built components (defaults to true)
+  }), react()]
 });
