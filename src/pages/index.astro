@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import BlockRenderer from '../components/BlockRenderer.astro';
+import type { Block } from '@wp-block-tools/styles';
 const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`,{
 	method: "POST",
 	headers: {
@@ -8,6 +10,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`,{
 	body: JSON.stringify({
 		query: `
 		query PageQuery {
+			
 			nodeByUri(uri: "/") {
 				... on Page {
 					id
@@ -19,8 +22,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`,{
 	})
 });
 const {data} = await response.json();
-console.log(data.nodeByUri);
-
+const blocks = (data.nodeByUri?.blocks || []) as Block[];
 ---
 
 <html lang="en">
@@ -29,9 +31,10 @@ console.log(data.nodeByUri);
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Astro</title>		
+		
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<BlockRenderer blocks={blocks} />
 	</body>
 </html>
