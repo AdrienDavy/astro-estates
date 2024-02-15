@@ -5,7 +5,11 @@ export default {
 		'./node_modules/@wp-block-tools/styles/**/*.js'
 	],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				"event-horizon": "var(--color--event-horizon)",
+			},
+		},
 	},
 	plugins: [],
 }
