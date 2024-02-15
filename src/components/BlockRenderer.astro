@@ -2,6 +2,7 @@
 import BlockRendererInner from './BlockRenderer.astro';
 import {getBlockStyling} from "@wp-block-tools/styles";
 import type { Block } from "@wp-block-tools/styles";
+import { Image } from 'astro:assets';
 type Props = {
   blocks: Block[]
 }
@@ -31,6 +32,17 @@ console.log("🚀 ~ blocks from BLOCK RENDERER:", blocks)
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </div>
         );
+        case 'core/site-logo':
+          return (
+            <div class={classes} style={styles}>
+              <Image
+                height={block.attributes?.height || "50"} 
+                width={block.attributes?.width || "50"}
+                src={block.attributes?.url || ""}
+                alt={block.attributes?.alt || ""}
+              />
+            </div>
+          )
         case 'core/template-part':
           return <BlockRendererInner blocks={block.innerBlocks || []} />
       default:
