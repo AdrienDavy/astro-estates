@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+type Props={
+  styles:string;
+  classes:string;
+  url?:string;
+  height?:number;
+  width?:number;
+};
+const {classes, styles,url,height,width} = Astro.props;
+---
+<div class={classes} style={styles}>
+{!!url &&
+<Image height={height || 1000} width={width || 1000} src={url} alt="" />
+}
+</div>
