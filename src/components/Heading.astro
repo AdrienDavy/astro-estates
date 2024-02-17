@@ -7,6 +7,6 @@ type Props={
   content:string;
 };
 const {level,styles,classes,content}= Astro.props;
-const Element: HTMLTag = `h${level}`
+const Element: HTMLTag = `h${level}`;
 ---
 <Element set:html={content} style={styles} class={classes} />

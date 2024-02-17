@@ -2,15 +2,47 @@
 import { joinClasses } from '../utils/joinClasses';
 import { Image } from 'astro:assets';
 type Props={
-  styles:string;
   classes:string;
+  styles:string,
   url?:string;
   height?:number;
   width?:number;
+  dimRatio?:number;
+  overlayColor?:string;
+  customOverlayColor?:string;
+  minHeight?:number;
+  minHeightUnit?:string;
 };
-const {classes, styles,url,height,width} = Astro.props;
+
+const {
+  classes,
+  styles,
+  url,
+  height,
+  width,
+  dimRatio = 50,
+  overlayColor,
+  customOverlayColor,
+  minHeight,
+  minHeightUnit
+  } = Astro.props;
+
+  let minHeightValue = "";
+if (minHeight && minHeightUnit) {
+  minHeightValue = `min-height: ${minHeight}${minHeightUnit}`;
+}
+
+let overlayStyle ="";
+if (customOverlayColor) {
+  overlayStyle = `background: ${customOverlayColor}`;  
+}
+
+if(overlayColor){
+  overlayStyle = `background: var(--color--${overlayColor})`; 
+}
 ---
-<div class={joinClasses(classes, "relative")} style={styles}>
+<div class={joinClasses(classes, "relative !min-h-0")} style={styles}>
+ 
   {
     !!url && (
       <Image
@@ -22,7 +54,12 @@ const {classes, styles,url,height,width} = Astro.props;
       />
     )
   }
-  <div class="z-10 relative">
+  <div
+    class="absolute top-0 right-0 bottom-0 left-0 bg-black !max-w-full !mt-0"
+    style={`opacity:${dimRatio / 100}; ${overlayStyle}`}
+    >
+  </div>
+  <div style={minHeightValue} class="z-10 relative !mt-0 min-h-[430px] flex flex-col justify-center">
     <slot />
   </div>
 </div>
