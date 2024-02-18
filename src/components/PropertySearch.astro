@@ -4,6 +4,9 @@ const bedrooms = searchParams.get("bedrooms");
 const bathrooms = searchParams.get("bathrooms");
 const minPrice = searchParams.get("minPrice");
 const maxPrice = searchParams.get("maxPrice");
+const response = await fetch(`${Astro.url.origin}/api/properties.json`);
+const { properties } = await response.json();
+console.log("🚀 ~ properties:", properties);
 ---
 
 <form method="GET">
