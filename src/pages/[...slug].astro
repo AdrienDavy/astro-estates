@@ -1,45 +1,50 @@
 ---
 interface AstroParams {
-    slug?: string;
+  slug?: string;
 }
-import BlockRenderer from '../components/BlockRenderer.astro';
-import type { Block } from '@wp-block-tools/styles';
-import CommonHead from '../components/CommonHead.astro';
+import BlockRenderer from "../components/BlockRenderer.astro";
+import type { Block } from "@wp-block-tools/styles";
+import CommonHead from "../components/CommonHead.astro";
 
-export async function getStaticPaths(){
-	const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
-		method:'POST',
-		headers: {
-			'Content-Type': 'application/json' 
-		},
-		body: JSON.stringify({
-			query: `
+export async function getStaticPaths() {
+  const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `
 			query AllPages {  
 				pages(first: 10000){
 					nodes {
 						uri
 					}
 				}
+				properties(first: 10000) {
+					nodes {
+						uri						
+					}
+				}
 			}
 			`,
-		}),
-	});
-	const {data} = await response.json();
-	return data.pages.nodes.map((page:any) =>({
-		params: {slug: page.uri === "/" ? undefined : page.uri }, // Handle the homepage by setting slug to undefined so		
-	}));
+    }),
+  });
+  const { data } = await response.json();
+  return [...data.pages.nodes, ...data.properties.nodes].map((page: any) => ({
+    params: { slug: page.uri === "/" ? undefined : page.uri }, // Handle the homepage by setting slug to undefined so
+  }));
 }
 const astroParams: AstroParams = Astro.params;
-const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`,{
-	method: "POST",
-	headers: {
-		"content-type" : "application/json"
-	},
-	body: JSON.stringify({
-		query: `
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+  method: "POST",
+  headers: {
+    "content-type": "application/json",
+  },
+  body: JSON.stringify({
+    query: `
 		query PageQuery($uri: String!) {			
 			nodeByUri(uri: $uri) {
-				... on Page {
+				... on ContentNode {
 					id
 					blocks
 					seo {
@@ -50,20 +55,20 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`,{
 			}
 		}
 		`,
-		variables: {
-			uri: astroParams.slug || "/",
-		},
-	}),
+    variables: {
+      uri: astroParams.slug || "/",
+    },
+  }),
 });
-const {data} = await response.json();
+const { data } = await response.json();
 //const {blocks, seo} = Astro.props;
 const blocks = (data.nodeByUri?.blocks || []) as Block[];
 const seo = data.nodeByUri?.seo;
 ---
 
 <html lang="en">
-	<CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
-	<body>
-		<BlockRenderer blocks={blocks} />
-	</body>
+  <CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
+  <body>
+    <BlockRenderer blocks={blocks} />
+  </body>
 </html>

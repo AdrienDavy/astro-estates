@@ -1,33 +1,43 @@
 ---
-import BlockRendererInner from './BlockRenderer.astro';
-import Navigation from './Navigation.astro';
-import Button from './Button.astro';
-import Heading from './Heading.astro';
-import Cover from './Cover.astro';
-import TickItem from './TickItem.astro';
-import SocialLink from './SocialLink.astro';
-import NavigationSubmenu from './NavigationSubmenu.astro';
-import NavigationLink from './NavigationLink.astro';
-import {getBlockStyling} from "@wp-block-tools/styles";
+import BlockRendererInner from "./BlockRenderer.astro";
+import Navigation from "./Navigation.astro";
+import Button from "./Button.astro";
+import Heading from "./Heading.astro";
+import Cover from "./Cover.astro";
+import TickItem from "./TickItem.astro";
+import SocialLink from "./SocialLink.astro";
+import NavigationSubmenu from "./NavigationSubmenu.astro";
+import NavigationLink from "./NavigationLink.astro";
+import { getBlockStyling } from "@wp-block-tools/styles";
 import type { Block } from "@wp-block-tools/styles";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 type Props = {
-  blocks: Block[]
-}
-const {blocks} = Astro.props;
+  blocks: Block[];
+};
+const { blocks } = Astro.props;
 ---
+
 {
-  blocks.map(block =>{
-    const {styles, classes} = getBlockStyling(block);
+  blocks.map((block) => {
+    const { styles, classes } = getBlockStyling(block);
 
     switch (block.name) {
-
+      case "core/gallery":
+        return (
+          <div class={classes} style={styles}>
+            {(block.innerBlocks || []).map((innerBlock) => (
+              <div>
+                <BlockRendererInner blocks={[innerBlock]} />
+              </div>
+            ))}
+          </div>
+        );
       case "astroestates/tick-item":
         return (
           <TickItem>
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </TickItem>
-          );
+        );
       case "core/image":
         return (
           <Image
@@ -47,7 +57,8 @@ const {blocks} = Astro.props;
             url={block.attributes?.url}
             content={block.attributes?.content || ""}
           />
-          );
+        );
+      case "core/post-title":
       case "core/heading":
         return (
           <Heading
@@ -61,7 +72,7 @@ const {blocks} = Astro.props;
         return (
           <Cover
             classes={classes}
-            styles={styles}            
+            styles={styles}
             url={block.attributes?.url}
             height={block.attributes?.height}
             width={block.attributes?.width}
@@ -74,48 +85,44 @@ const {blocks} = Astro.props;
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </Cover>
         );
-      case 'core/navigation-submenu':
+      case "core/navigation-submenu":
         return (
           <NavigationSubmenu
-          classes={classes}
-          styles={styles}
-          label={block.attributes?.label || ''}
-          url={block.attributes?.url || ""}
+            classes={classes}
+            styles={styles}
+            label={block.attributes?.label || ""}
+            url={block.attributes?.url || ""}
           >
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </NavigationSubmenu>
         );
-      case 'core/navigation-link':
-        return(
+      case "core/navigation-link":
+        return (
           <NavigationLink
-          classes={classes}
-          styles={styles}
-          label={block.attributes?.label || ''}
-          url={block.attributes?.url || ""}
+            classes={classes}
+            styles={styles}
+            label={block.attributes?.label || ""}
+            url={block.attributes?.url || ""}
           />
         );
-      case 'core/navigation':
+      case "core/navigation":
         return (
-          <Navigation
-          classes={classes}
-          styles={styles}
-          >
+          <Navigation classes={classes} styles={styles}>
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </Navigation>
-          );
-      case 'core/paragraph':
+        );
+      case "core/paragraph":
         return (
           <p
-          class={classes}
-          style={styles}
-          set:html={block.attributes?.content}
-          >
-          </p>
-          );
-      case 'core/columns':
-      case 'core/column':
-      case 'core/post-content':
-      case 'core/group':
+            class={classes}
+            style={styles}
+            set:html={block.attributes?.content}
+          />
+        );
+      case "core/columns":
+      case "core/column":
+      case "core/post-content":
+      case "core/group":
       case "core/buttons":
       case "core/social-links":
         return (
@@ -123,28 +130,28 @@ const {blocks} = Astro.props;
             <BlockRendererInner blocks={block.innerBlocks || []} />
           </div>
         );
-        case "core/social-link":
-          return (
-            <SocialLink
-              url={block.attributes?.url}
-              service={block.attributes?.service}
-              classes={classes}
-              styles={styles}
+      case "core/social-link":
+        return (
+          <SocialLink
+            url={block.attributes?.url}
+            service={block.attributes?.service}
+            classes={classes}
+            styles={styles}
+          />
+        );
+      case "core/site-logo":
+        return (
+          <div class={classes} style={styles}>
+            <Image
+              height={block.attributes?.height || "50"}
+              width={block.attributes?.width || "50"}
+              src={block.attributes?.url || ""}
+              alt={block.attributes?.alt || ""}
             />
-          )
-        case 'core/site-logo':
-          return (
-            <div class={classes} style={styles}>
-              <Image
-                height={block.attributes?.height || "50"} 
-                width={block.attributes?.width || "50"}
-                src={block.attributes?.url || ""}
-                alt={block.attributes?.alt || ""}
-              />
-            </div>
-          );
-        case 'core/template-part':
-          return <BlockRendererInner blocks={block.innerBlocks || []} />
+          </div>
+        );
+      case "core/template-part":
+        return <BlockRendererInner blocks={block.innerBlocks || []} />;
       default:
         return null;
     }
