@@ -7,6 +7,7 @@ import Cover from "./Cover.astro";
 import TickItem from "./TickItem.astro";
 import SocialLink from "./SocialLink.astro";
 import NavigationSubmenu from "./NavigationSubmenu.astro";
+import PropertyDetails from "./PropertyDetails.astro";
 import NavigationLink from "./NavigationLink.astro";
 import { getBlockStyling } from "@wp-block-tools/styles";
 import type { Block } from "@wp-block-tools/styles";
@@ -22,6 +23,14 @@ const { blocks } = Astro.props;
     const { styles, classes } = getBlockStyling(block);
 
     switch (block.name) {
+      case "astroestates/property-details":
+        return (
+          <PropertyDetails
+            bathrooms={block.attributes?.bathrooms}
+            bedrooms={block.attributes?.bedrooms}
+            price={block.attributes?.price}
+          />
+        );
       case "core/gallery":
         return (
           <div class={classes} style={styles}>

@@ -113,3 +113,7 @@ config.autoAddCss = false;
 npm install @fontsource/poppins <--- font that you want on (https://fontsource.org/fonts/poppins/install)
 
 npm i @fortawesome/free-brands-svg-icons
+
+npm i numeral (format numbers. For example : display 120 000 or 120,000)
+
+npm i --save-dev @types/numeral
