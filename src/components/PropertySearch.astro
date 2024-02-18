@@ -1,0 +1,45 @@
+---
+
+---
+
+<form method="GET">
+  <fieldset class="pb-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+    <div>
+      <label><strong>Min bedrooms</strong></label>
+      <input
+        type="number"
+        name="bedrooms"
+        class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+      />
+    </div>
+    <div>
+      <label><strong>Min bathrooms</strong></label>
+      <input
+        type="number"
+        name="bathrooms"
+        class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+      />
+    </div>
+    <div>
+      <label><strong>Min price</strong></label>
+      <input
+        type="number"
+        name="minPrice"
+        class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+      />
+    </div>
+    <div>
+      <label><strong>Max price</strong></label>
+      <input
+        type="number"
+        name="maxPrice"
+        class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+      />
+    </div>
+  </fieldset>
+  <button
+    type="submit"
+    class="w-full text-white inline-block uppercase font-bold tracking-[1.3px] bg-event-horizon rounded-full py-3 px-6"
+    >Search</button
+  >
+</form>

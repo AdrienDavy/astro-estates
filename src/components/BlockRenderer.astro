@@ -6,6 +6,7 @@ import Heading from "./Heading.astro";
 import Cover from "./Cover.astro";
 import TickItem from "./TickItem.astro";
 import SocialLink from "./SocialLink.astro";
+import PropertySearch from "./PropertySearch.astro";
 import NavigationSubmenu from "./NavigationSubmenu.astro";
 import PropertyDetails from "./PropertyDetails.astro";
 import NavigationLink from "./NavigationLink.astro";
@@ -23,6 +24,8 @@ const { blocks } = Astro.props;
     const { styles, classes } = getBlockStyling(block);
 
     switch (block.name) {
+      case "astroestates/property-search":
+        return <PropertySearch />;
       case "astroestates/property-details":
         return (
           <PropertyDetails
