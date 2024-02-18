@@ -117,3 +117,7 @@ npm i @fortawesome/free-brands-svg-icons
 npm i numeral (format numbers. For example : display 120 000 or 120,000)
 
 npm i --save-dev @types/numeral
+
+npx astro add vercel (SSR) (Y to all)
+Then in astro.config.mjs :
+change output: "server" to output: "hybrid"

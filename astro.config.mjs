@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import { loadEnv } from 'vite';
 import react from "@astrojs/react";
+import vercel from "@astrojs/vercel/serverless";
 const {
   PUBLIC_WP_URL
 } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
@@ -14,5 +15,7 @@ export default defineConfig({
   },
   integrations: [tailwind({
     applyBaseStyles: false // Disable base styles for custom-built components (defaults to true)
-  }), react()]
+  }), react()],
+  output: "hybrid",
+  adapter: vercel()
 });
