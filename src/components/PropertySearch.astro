@@ -1,5 +1,9 @@
 ---
-
+const { searchParams } = Astro.url;
+const bedrooms = searchParams.get("bedrooms");
+const bathrooms = searchParams.get("bathrooms");
+const minPrice = searchParams.get("minPrice");
+const maxPrice = searchParams.get("maxPrice");
 ---
 
 <form method="GET">
@@ -7,6 +11,7 @@
     <div>
       <label><strong>Min bedrooms</strong></label>
       <input
+        value={bedrooms}
         type="number"
         name="bedrooms"
         class="w-full py-1 px-2 border border-event-horizon rounded-sm"
@@ -15,6 +20,7 @@
     <div>
       <label><strong>Min bathrooms</strong></label>
       <input
+        value={bathrooms}
         type="number"
         name="bathrooms"
         class="w-full py-1 px-2 border border-event-horizon rounded-sm"
@@ -23,6 +29,7 @@
     <div>
       <label><strong>Min price</strong></label>
       <input
+        value={minPrice}
         type="number"
         name="minPrice"
         class="w-full py-1 px-2 border border-event-horizon rounded-sm"
@@ -31,6 +38,7 @@
     <div>
       <label><strong>Max price</strong></label>
       <input
+        value={maxPrice}
         type="number"
         name="maxPrice"
         class="w-full py-1 px-2 border border-event-horizon rounded-sm"
