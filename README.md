@@ -111,3 +111,5 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
 npm install @fontsource/poppins <--- font that you want on (https://fontsource.org/fonts/poppins/install)
+
+npm i @fortawesome/free-brands-svg-icons
