@@ -4,6 +4,7 @@ import Navigation from './Navigation.astro';
 import Button from './Button.astro';
 import Heading from './Heading.astro';
 import Cover from './Cover.astro';
+import TickItem from './TickItem.astro';
 import NavigationSubmenu from './NavigationSubmenu.astro';
 import NavigationLink from './NavigationLink.astro';
 import {getBlockStyling} from "@wp-block-tools/styles";
@@ -19,6 +20,13 @@ const {blocks} = Astro.props;
     const {styles, classes} = getBlockStyling(block);
 
     switch (block.name) {
+
+      case "astroestates/tick-item":
+        return (
+          <TickItem>
+            <BlockRendererInner blocks={block.innerBlocks || []} />
+          </TickItem>
+          );
       case "core/image":
         return (
           <Image
@@ -29,7 +37,7 @@ const {blocks} = Astro.props;
             style={styles}
             alt={block.attributes?.alt || ""}
           />
-        )
+        );
       case "core/button":
         return (
           <Button
