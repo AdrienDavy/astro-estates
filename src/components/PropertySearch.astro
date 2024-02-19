@@ -3,14 +3,37 @@ import { faBed, faBath } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "astro:assets";
 import numeral from "numeral";
-
 const { searchParams } = Astro.url;
 const bedrooms = searchParams.get("bedrooms");
 const bathrooms = searchParams.get("bathrooms");
 const minPrice = searchParams.get("minPrice");
 const maxPrice = searchParams.get("maxPrice");
+
 const response = await fetch(`${Astro.url.origin}/api/properties.json`);
 const { properties } = await response.json();
+let filteredProperties = properties;
+
+if (bedrooms && !isNaN(parseInt(bedrooms))) {
+  filteredProperties = filteredProperties.filter((property: any) => {
+    return property.propertyDetails.bedrooms >= parseInt(bedrooms);
+  });
+}
+
+if (bathrooms && !isNaN(parseInt(bathrooms))) {
+  filteredProperties = filteredProperties.filter((property: any) => {
+    return property.propertyDetails.bathrooms >= parseInt(bathrooms);
+  });
+}
+if (minPrice && !isNaN(parseInt(minPrice))) {
+  filteredProperties = filteredProperties.filter((property: any) => {
+    return property.propertyDetails.price >= parseInt(minPrice);
+  });
+}
+if (maxPrice && !isNaN(parseInt(maxPrice))) {
+  filteredProperties = filteredProperties.filter((property: any) => {
+    return property.propertyDetails.price <= parseInt(maxPrice);
+  });
+}
 ---
 
 <form method="GET">
@@ -60,7 +83,7 @@ const { properties } = await response.json();
 </form>
 <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
   {
-    properties.map((property: any) => (
+    filteredProperties.map((property: any) => (
       <a
         href={property.uri}
         class=" p-2 border border-zinc-200 hover:bg-zinc-100 transition-all"
