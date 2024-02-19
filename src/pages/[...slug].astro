@@ -65,7 +65,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 		query PageQuery($uri: String!) {			
 			nodeByUri(uri: $uri) {
 				... on ContentNode {
-					id
+					databaseId
 					blocks
 					seo {
 						metaDesc
@@ -84,11 +84,12 @@ const { data } = await response.json();
 //const {blocks, seo} = Astro.props;
 const blocks = (data.nodeByUri?.blocks || []) as Block[];
 const seo = data.nodeByUri?.seo;
+const postId = data.nodeByUri?.databaseId;
 ---
 
 <html lang="en">
   <CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
   <body>
-    <BlockRenderer blocks={blocks} />
+    <BlockRenderer blocks={blocks} postId={postId} />
   </body>
 </html>

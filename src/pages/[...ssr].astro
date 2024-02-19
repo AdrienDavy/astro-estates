@@ -12,12 +12,12 @@ const { data } = await response.json();
 if (!data) {
   return Astro.redirect("/404");
 }
-const { seo, blocks } = data;
+const { seo, blocks, databaseId } = data;
 ---
 
 <html lang="en">
   <CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
   <body>
-    <BlockRenderer blocks={blocks} />
+    <BlockRenderer blocks={blocks} postId={databaseId} />
   </body>
 </html>

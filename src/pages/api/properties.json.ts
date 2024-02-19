@@ -11,6 +11,7 @@ export const GET: APIRoute = async () => {
       query AllProperties {
         properties(first: 10000) {
           nodes {
+            databaseId
             featuredImage {
               node {
                 sourceUrl

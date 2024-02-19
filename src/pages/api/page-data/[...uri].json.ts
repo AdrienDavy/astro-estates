@@ -13,7 +13,7 @@ export const GET: APIRoute = async ({ params }) => {
       query PageQuery($uri: String!) {			
         nodeByUri(uri: $uri) {
           ... on ContentNode {
-            id
+            databaseId
             blocks
             seo {
               metaDesc
