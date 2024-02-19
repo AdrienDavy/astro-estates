@@ -126,10 +126,19 @@ filteredProperties = filteredProperties.slice(offset, offset + pageSize);
     ))
   }
 </div>
-<div>
+<div class="flex gap-2 justify-center">
   {
     Array.from({ length: totalPages }).map((_, i) => (
-      <a href={`?${searchParamsString}&page=${i + 1}`}>{i + 1}</a>
+      <a
+        class={`block px-3 py-2 rounded-md ${i + 1 === pageNumber ? `bg-event-horizon text-white` : ` bg-zinc-200 hover:bg-zinc-300 transition-all`}`}
+        href={`?${
+          searchParamsString
+            ? `${searchParamsString}&page=${i + 1}`
+            : `page=${i + 1}`
+        }`}
+      >
+        {i + 1}
+      </a>
     ))
   }
 </div>
