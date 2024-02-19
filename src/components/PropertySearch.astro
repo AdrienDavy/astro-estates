@@ -8,6 +8,10 @@ const bedrooms = searchParams.get("bedrooms");
 const bathrooms = searchParams.get("bathrooms");
 const minPrice = searchParams.get("minPrice");
 const maxPrice = searchParams.get("maxPrice");
+const page = searchParams.get("page");
+console.log("🚀 ~ searchParams:", searchParams.toString());
+searchParams.delete("page");
+const searchParamsString = searchParams.toString();
 
 const response = await fetch(`${Astro.url.origin}/api/properties.json`);
 const { properties } = await response.json();
@@ -34,6 +38,11 @@ if (maxPrice && !isNaN(parseInt(maxPrice))) {
     return property.propertyDetails.price <= parseInt(maxPrice);
   });
 }
+const pageSize = 3; // Number of results per page
+const totalPages = Math.ceil(filteredProperties.length / pageSize);
+const pageNumber = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1;
+const offset = (pageNumber - 1) * pageSize;
+filteredProperties = filteredProperties.slice(offset, offset + pageSize);
 ---
 
 <form method="GET">
@@ -114,6 +123,13 @@ if (maxPrice && !isNaN(parseInt(maxPrice))) {
           </div>
         </div>
       </a>
+    ))
+  }
+</div>
+<div>
+  {
+    Array.from({ length: totalPages }).map((_, i) => (
+      <a href={`?${searchParamsString}&page=${i + 1}`}>{i + 1}</a>
     ))
   }
 </div>
